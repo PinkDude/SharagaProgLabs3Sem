@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab1.MyClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ namespace Lab1
 {
     public class Lab1Queue
     {
-        const int MinValue = 1;
-        const int MaxValue = 10;
-        const uint ValueCount = 5;
+        protected const int MinValue = 1;
+        protected const int MaxValue = 10;
+        protected const uint ValueCount = 5;
 
         public void Main()
         {
@@ -24,7 +25,7 @@ namespace Lab1
         /// Тело работы со стеком по 1ой лабе
         /// </summary>
         /// <param name="queue"></param>
-        private void Body(Queue<int> queue)
+        private void Body(MyQueue<int> queue)
         {
             while (true)
             {
@@ -44,7 +45,7 @@ namespace Lab1
                             Console.WriteLine("Очередь не пустая...");
                         break;
                     case 2:
-                        WriteQueueCount(queue);
+                        CheckQueueFull(queue);
                         break;
                     case 3:
                         AddInQueue(ref queue);
@@ -75,7 +76,7 @@ namespace Lab1
         /// Добавление в очередь несколько случайных элементов
         /// </summary>
         /// <param name="queue"></param>
-        private void QueueAddRange(ref Queue<int> queue)
+        private void QueueAddRange(ref MyQueue<int> queue)
         {
             Console.WriteLine("Сколько элементов добавить?");
 
@@ -90,12 +91,19 @@ namespace Lab1
         }
 
         /// <summary>
-        /// Вывод кол-ва элементов в очереди
+        /// Проверка на заполненность
         /// </summary>
         /// <param name="queue"></param>
-        private void WriteQueueCount(Queue<int> queue)
+        private void CheckQueueFull(MyQueue<int> queue)
         {
-            Console.WriteLine($"Кол-во элементов - {queue.Count}");
+            if (queue.IsFull)
+            {
+                Console.WriteLine("Очередь заполнена!");
+            }
+            else
+            {
+                Console.WriteLine("Очередь не заполнена...");
+            }
         }
 
         /// <summary>
@@ -103,9 +111,9 @@ namespace Lab1
         /// </summary>
         /// <param name="queue"></param>
         /// <returns></returns>
-        private bool QueueIsEmpty(Queue<int> queue)
+        private bool QueueIsEmpty(MyQueue<int> queue)
         {
-            if (queue == null || queue.Count() == 0)
+            if (queue == null || queue.Count == 0)
             {
                 Console.WriteLine("Очередь пустая!");
                 return true;
@@ -118,7 +126,7 @@ namespace Lab1
         /// Удаление элемента из очереди
         /// </summary>
         /// <param name="queue"></param>
-        private void DeleteFromQueue(ref Queue<int> queue)
+        private void DeleteFromQueue(ref MyQueue<int> queue)
         {
             if (QueueIsEmpty(queue))
                 return;
@@ -130,7 +138,7 @@ namespace Lab1
         /// Добавление элемента в очередь
         /// </summary>
         /// <param name="queue"></param>
-        private void AddInQueue(ref Queue<int> queue)
+        private void AddInQueue(ref MyQueue<int> queue)
         {
             var answer = GetAnswer();
             if (answer == null)
@@ -167,7 +175,7 @@ namespace Lab1
         /// </summary>
         private void WriteWhatWant()
         {
-            Console.WriteLine("Что хотите сделать?\n1) Проверка на пустоту\n2) Вывод кол-ва элементов\n"
+            Console.WriteLine("Что хотите сделать?\n1) Проверка на пустоту\n2) Проверка на заполненность\n"
                 + "3) Добавить новый элемент в очередь\n4) Удаление элемента из очереди\n5) Вывод очереди на экран\n"
                 + "6) Добавить несколько новых элементов\n0) Выход из лабы 'Очередь'");
         }
@@ -176,7 +184,7 @@ namespace Lab1
         /// Вывод очереди на экран
         /// </summary>
         /// <param name="queue"></param>
-        private void WriteQueue(Queue<int> queue)
+        private void WriteQueue(MyQueue<int> queue)
         {
             Console.Write("Queue = ");
             foreach (var item in queue)
@@ -190,9 +198,9 @@ namespace Lab1
         /// Инициализация очереди
         /// </summary>
         /// <returns></returns>
-        private Queue<int> InitQueue()
+        protected virtual MyQueue<int> InitQueue()
         {
-            var queue = new Queue<int>((int)ValueCount);
+            var queue = new MyQueue<int>((int)ValueCount);
 
             for (var i = 0; i < ValueCount; i++)
                 queue.Enqueue(RandomValue());
@@ -204,7 +212,7 @@ namespace Lab1
         /// Возвращает случайное число
         /// </summary>
         /// <returns></returns>
-        private int RandomValue()
+        protected int RandomValue()
         {
             var rand = new Random();
             return rand.Next(MinValue, MaxValue);

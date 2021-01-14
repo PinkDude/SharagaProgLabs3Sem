@@ -15,6 +15,8 @@ namespace Lab1
                 Console.WriteLine("1) Стек\n2) Очередь\n3) Лист\n4) Двусвязный лист\n" 
                     + "5) Древовидные структуры\n" 
                     + "6) Сортировки\n"
+                    + "7) Статический стек\n"
+                    + "8) Статическая очередь\n"
                     + "0) Выход");
 
                 var answer = GetAnswer();
@@ -42,6 +44,12 @@ namespace Lab1
                     case 6:
                         GetSort();
                         break;
+                    case 7:
+                        GetStackStatic();
+                        break;
+                    case 8:
+                        GetQueueStatic();
+                        break;
                     case 0:
                         exit = true;
                         break;
@@ -53,6 +61,20 @@ namespace Lab1
                 if (exit)
                     break;
             }
+        }
+
+        static void GetStackStatic()
+        {
+            var sort = new Lab1StackStatic();
+
+            sort.Main();
+        }
+
+        static void GetQueueStatic()
+        {
+            var tree = new Lab1QueueStatic();
+
+            tree.Main();
         }
 
         static void GetSort()

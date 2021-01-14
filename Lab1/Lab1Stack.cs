@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab1.MyClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ namespace Lab1
 {
     public class Lab1Stack
     {
-        const int MinValue = 1;
-        const int MaxValue = 10;
-        const uint ValueCount = 5;
+        protected const int MinValue = 1;
+        protected const int MaxValue = 10;
+        protected const uint ValueCount = 5;
 
         public void Main()
         {
@@ -24,7 +25,7 @@ namespace Lab1
         /// Тело работы со стеком по 1ой лабе
         /// </summary>
         /// <param name="stack"></param>
-        private void Body(Stack<int> stack)
+        private void Body(MyStack<int> stack)
         {
             while (true)
             {
@@ -44,7 +45,7 @@ namespace Lab1
                             Console.WriteLine("Стек не пустой...");
                         break;
                     case 2:
-                        WriteStackCount(stack);
+                        CheckStackFull(stack);
                         break;
                     case 3:
                         AddInStack(ref stack);
@@ -75,7 +76,7 @@ namespace Lab1
         /// Добавление в стек несколько случайных элементов
         /// </summary>
         /// <param name="stack"></param>
-        private void StackAddRange(ref Stack<int> stack)
+        private void StackAddRange(ref MyStack<int> stack)
         {
             Console.WriteLine("Сколько элементов добавить?");
 
@@ -90,12 +91,19 @@ namespace Lab1
         }
 
         /// <summary>
-        /// Вывод кол-ва элементов в стеке 
+        /// Проверка на заполненность
         /// </summary>
         /// <param name="stack"></param>
-        private void WriteStackCount(Stack<int> stack)
+        private void CheckStackFull(MyStack<int> stack)
         {
-            Console.WriteLine($"Кол-во элементов - {stack.Count}");
+            if (stack.IsFull)
+            {
+                Console.WriteLine("Стек заполнен");
+            }
+            else
+            {
+                Console.WriteLine("Стек не заполнен");
+            }
         }
 
         /// <summary>
@@ -103,9 +111,9 @@ namespace Lab1
         /// </summary>
         /// <param name="stack"></param>
         /// <returns></returns>
-        private bool StackIsEmpty(Stack<int> stack)
+        private bool StackIsEmpty(MyStack<int> stack)
         {
-            if(stack == null || stack.Count() == 0)
+            if(stack == null || stack.IsEmpty)
             {
                 Console.WriteLine("Стек пустой!");
                 return true;
@@ -118,7 +126,7 @@ namespace Lab1
         /// Удаление верхнего элемента из стека
         /// </summary>
         /// <param name="stack"></param>
-        private void DeleteFromStack(ref Stack<int> stack)
+        private void DeleteFromStack(ref MyStack<int> stack)
         {
             if (StackIsEmpty(stack))
                 return;
@@ -130,7 +138,7 @@ namespace Lab1
         /// Добавление элемента в стек
         /// </summary>
         /// <param name="stack"></param>
-        private void AddInStack(ref Stack<int> stack)
+        private void AddInStack(ref MyStack<int> stack)
         {
             var answer = GetAnswer();
             if (answer == null)
@@ -145,13 +153,11 @@ namespace Lab1
         /// <returns></returns>
         private int? GetAnswer()
         {
-            int result;
-
             Console.Write("Введите число - ");
 
             var answer = Console.ReadLine();
 
-            var success = Int32.TryParse(answer, out result);
+            var success = Int32.TryParse(answer, out int result);
 
             if (!success)
             {
@@ -167,7 +173,7 @@ namespace Lab1
         /// </summary>
         private void WriteWhatWant()
         {
-            Console.WriteLine("Что хотите сделать?\n1) Проверка на пустоту\n2) Вывод кол-ва элементов\n" 
+            Console.WriteLine("Что хотите сделать?\n1) Проверка на пустоту\n2) Проверка на заполненность\n" 
                 + "3) Добавить новый элемент в вершину стека\n4) Удаление элемента из вершины стека\n5) Вывод стека на экран\n" 
                 + "6) Добавить несколько новых элементов\n0) Выход из лабы 'Стек'");
         }
@@ -176,7 +182,7 @@ namespace Lab1
         /// Вывод стека на экран
         /// </summary>
         /// <param name="stack"></param>
-        private void WriteStack(Stack<int> stack)
+        private void WriteStack(MyStack<int> stack)
         {
             Console.Write("Stack = ");
             foreach(var item in stack)
@@ -190,9 +196,9 @@ namespace Lab1
         /// Инициализация стека
         /// </summary>
         /// <returns></returns>
-        private Stack<int> InitStack()
+        protected virtual MyStack<int> InitStack()
         {
-            var stack = new Stack<int>((int)ValueCount);
+            var stack = new MyStack<int>((int)ValueCount);
 
             for (var i = 0; i < ValueCount; i++)
                 stack.Push(RandomValue());
@@ -204,7 +210,7 @@ namespace Lab1
         /// Возвращает случайное число
         /// </summary>
         /// <returns></returns>
-        private int RandomValue()
+        protected int RandomValue()
         {
             var rand = new Random();
             return rand.Next(MinValue, MaxValue);
