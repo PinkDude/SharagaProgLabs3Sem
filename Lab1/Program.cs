@@ -17,6 +17,7 @@ namespace Lab1
                     + "6) Сортировки\n"
                     + "7) Статический стек\n"
                     + "8) Статическая очередь\n"
+                    + "9) Статический лист\n"
                     + "0) Выход");
 
                 var answer = GetAnswer();
@@ -50,6 +51,9 @@ namespace Lab1
                     case 8:
                         GetQueueStatic();
                         break;
+                    case 9:
+                        GetListStatic();
+                        break;
                     case 0:
                         exit = true;
                         break;
@@ -61,6 +65,13 @@ namespace Lab1
                 if (exit)
                     break;
             }
+        }
+
+        static void GetListStatic()
+        {
+            var sort = new Lab1ListStatic();
+
+            sort.Main();
         }
 
         static void GetStackStatic()

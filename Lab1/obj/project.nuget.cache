@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I26YglLd2sO9RZaDb0Jbyug8SnfcCA0GFuoRzI7WtAir2/PkopxGbqeA3zD6UCPgT51LnaDCoxgZ8zwZasKvwg==",
+  "dgSpecHash": "MHT89jQ8jcX3G2LFENclxIXSfePgR0gRi3PMiJGCZjbOGCNsxmiy07akt2mAJX9paKugs2ccRd/Wy2nUTyOxTQ==",
   "success": true,
   "projectFilePath": "D:\\MyDevelop\\VS\\SharagaLabs\\Lab1\\Lab1\\Lab1.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\ilnoo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\ilnoo\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.10\\microsoft.netcore.app.host.win-x64.3.1.10.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

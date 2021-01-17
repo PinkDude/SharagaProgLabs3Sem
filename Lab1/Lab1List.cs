@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Lab1.MyClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Lab1
 {
-    class Lab1List
+    public class Lab1List
     {
-        const int MinValue = 1;
-        const int MaxValue = 10;
-        const uint ValueCount = 5;
+        protected const int MinValue = 1;
+        protected const int MaxValue = 10;
+        protected const uint ValueCount = 5;
 
         public void Main()
         {
@@ -24,7 +25,7 @@ namespace Lab1
         /// Тело работы с листом по 1ой лабе
         /// </summary>
         /// <param name="list"></param>
-        private void Body(List<int> list)
+        private void Body(MyList<int> list)
         {
             while (true)
             {
@@ -43,16 +44,16 @@ namespace Lab1
                         FindInList(list);
                         break;
                     case 2:
-                        AddInList(ref list);
+                        AddInListBefore(ref list);
                         break;
                     case 3:
-                        DeleteFromList(ref list);
+                        AddInListAfter(ref list);
                         break;
                     case 4:
-                        WriteList(list);
+                        DeleteFromList(ref list);
                         break;
                     case 5:
-                        ListAddRange(ref list);
+                        WriteList(list);
                         break;
                     case 0:
                         exit = true;
@@ -67,18 +68,16 @@ namespace Lab1
             }
         }
 
-        private void FindInList(List<int> list)
+        private void FindInList(MyList<int> list)
         {
             Console.WriteLine("Какой элемент нужно найти?");
             var answer = GetAnswer();
             if (answer == null)
                 return;
 
-            IReadOnlyList<int> result = list
-                .Where(item => item == answer)
-                .ToList();
+            IReadOnlyList<int> result = list.GetIndexesOf(answer.Value);
 
-            Console.Write("Найденные элементы: ");
+            Console.Write("Индексы найденных элементов: ");
             foreach(var item in result)
             {
                 Console.Write(item + " ");
@@ -87,33 +86,11 @@ namespace Lab1
         }
 
         /// <summary>
-        /// Добавление в лист несколько случайных элементов
-        /// </summary>
-        /// <param name="list"></param>
-        private void ListAddRange(ref List<int> list)
-        {
-            Console.WriteLine("Сколько элементов добавить?");
-
-            var answer = GetAnswer();
-            if (answer == null)
-                return;
-
-            var newList = new List<int>((int)answer);
-
-            for (var i = 0; i < answer; i++)
-            {
-                newList.Add(RandomValue());
-            }
-
-            list.AddRange(newList);
-        }
-
-        /// <summary>
         /// Проверка на пустой лист
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        private bool ListIsEmpty(List<int> list)
+        private bool ListIsEmpty(MyList<int> list)
         {
             if (list == null || list.Count() == 0)
             {
@@ -128,47 +105,57 @@ namespace Lab1
         /// Удаление элемента из листа
         /// </summary>
         /// <param name="list"></param>
-        private void DeleteFromList(ref List<int> list)
+        private void DeleteFromList(ref MyList<int> list)
         {
             if (ListIsEmpty(list))
                 return;
 
-            Console.WriteLine("Удалить по какому индексу?");
+            Console.WriteLine("Какое число удалить?");
 
             var answer = GetAnswer();
 
             if (answer == null)
                 return;
 
-            list.RemoveAt(answer.Value);
+            list.Remove(answer.Value);
         }
 
         /// <summary>
-        /// Добавление элемента в лист
+        /// Добавление элемента в лист до заднного
         /// </summary>
         /// <param name="list"></param>
-        private void AddInList(ref List<int> list)
+        private void AddInListBefore(ref MyList<int> list)
         {
             Console.WriteLine("Какое число добавить?");
             var answer = GetAnswer();
             if (answer == null)
                 return;
 
-            Console.WriteLine("На какую позицию добавить?");
-            var position = GetAnswer();
-            if (position == null)
+            Console.WriteLine("Перед каким числом?");
+            var target = GetAnswer();
+            if (target == null)
                 return;
 
-            if (position > list.Count())
-            {
-                list.Add(answer.Value);
+            list.AddBefore(answer.Value, target.Value);
+        }
+
+        /// <summary>
+        /// Добавление элемента в лист после заданного
+        /// </summary>
+        /// <param name="list"></param>
+        private void AddInListAfter(ref MyList<int> list)
+        {
+            Console.WriteLine("Какое число добавить?");
+            var answer = GetAnswer();
+            if (answer == null)
                 return;
-            }
 
-            if(position < 0)
-                position = 0;
+            Console.WriteLine("После какого числа?");
+            var target = GetAnswer();
+            if (target == null)
+                return;
 
-            list.Insert(position.Value, answer.Value);
+            list.AddAfter(answer.Value, target.Value);
         }
 
         /// <summary>
@@ -199,16 +186,19 @@ namespace Lab1
         /// </summary>
         private void WriteWhatWant()
         {
-            Console.WriteLine("Что хотите сделать?\n1) Поиск элемента в списке\n"
-                + "2) Добавить новый элемент в список\n3) Удаление элемента из списка\n4) Вывод списка на экран\n"
-                + "5) Добавить несколько новых элементов\n0) Выход из лабы 'Список'");
+            Console.WriteLine("Что хотите сделать?\n1) Поиск элемента в списке\n" +
+                "2) Добавить новый элемент в список до\n" +
+                "3) Добавить новый элемент в список после\n" +
+                "4) Удаление элемента из списка\n" +
+                "5) Вывод списка на экран\n" +
+                "0) Выход из лабы 'Список'");
         }
 
         /// <summary>
         /// Вывод листа на экран
         /// </summary>
         /// <param name="list"></param>
-        private void WriteList(List<int> list)
+        private void WriteList(MyList<int> list)
         {
             Console.Write("List = ");
             foreach (var item in list)
@@ -222,9 +212,9 @@ namespace Lab1
         /// Инициализация листа
         /// </summary>
         /// <returns></returns>
-        private List<int> InitList()
+        protected virtual MyList<int> InitList()
         {
-            var list = new List<int>((int)ValueCount);
+            var list = new MyList<int>((int)ValueCount);
 
             for (var i = 0; i < ValueCount; i++)
                 list.Add(RandomValue());
@@ -236,7 +226,7 @@ namespace Lab1
         /// Возвращает случайное число
         /// </summary>
         /// <returns></returns>
-        private int RandomValue()
+        protected int RandomValue()
         {
             var rand = new Random();
             return rand.Next(MinValue, MaxValue);
