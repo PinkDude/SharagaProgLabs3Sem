@@ -131,7 +131,7 @@ namespace Lab1
             if (answer == null)
                 return;
 
-            Console.WriteLine("Перед каким числом?");
+            Console.WriteLine("До каким числом?");
             var target = GetAnswer();
             if (target == null)
                 return;

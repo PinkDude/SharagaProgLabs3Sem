@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lab1
 {
-    public class Lab1DoublyList
+    public class Lab1DoublyListList
     {
         const int MinValue = 1;
         const int MaxValue = 10;
@@ -23,7 +23,7 @@ namespace Lab1
         /// Тело работы с листом по 1ой лабе
         /// </summary>
         /// <param name="list"></param>
-        private void Body(DoublyList<int> list)
+        private void Body(DoublyListList<int> list)
         {
             while (true)
             {
@@ -42,21 +42,18 @@ namespace Lab1
                         WriteDoublyList(list);
                         break;
                     case 2:
-                        WriteReverseDoublyList(list);
-                        break;
-                    case 3:
                         FindInDoublyList(list);
                         break;
+                    case 3:
+                        AddNewList(ref list);
+                        break;
                     case 4:
-                        ReverseFindInDoublyList(list);
+                        AddElementInList(ref list);
                         break;
                     case 5:
-                        AddAfter(ref list);
+                        DeleteElement(ref list);
                         break;
                     case 6:
-                        AddBefore(ref list);
-                        break;
-                    case 7:
                         Delete(ref list);
                         break;
                     case 0:
@@ -73,12 +70,39 @@ namespace Lab1
         }
 
         /// <summary>
+        /// Добавление нового списка
+        /// </summary>
+        private void AddNewList(ref DoublyListList<int> doublyList)
+        {
+            doublyList.Add();
+        }
+
+        /// <summary>
+        /// Добавление элемента в заданный список
+        /// </summary>
+        /// <param name="doublyList"></param>
+        private void AddElementInList(ref DoublyListList<int> doublyList)
+        {
+            Console.WriteLine("В какой список добавить?");
+            var position = GetAnswer();
+            if (position == null)
+                return;
+
+            Console.WriteLine("Какой элемент нужно добавить?");
+            var answer = GetAnswer();
+            if (answer == null)
+                return;
+
+            doublyList.AddIn(position.Value, answer.Value);
+        }
+
+        /// <summary>
         /// Удаление элемента
         /// </summary>
         /// <param name="doublyList"></param>
-        private void Delete(ref DoublyList<int> doublyList)
+        private void Delete(ref DoublyListList<int> doublyList)
         {
-            Console.WriteLine("Какой элемент нужно удалить?");
+            Console.WriteLine("Какой список нужно удалить?");
             var answer = GetAnswer();
             if (answer == null)
                 return;
@@ -86,49 +110,64 @@ namespace Lab1
             doublyList.Remove(answer.Value);
         }
 
-        /// <summary>
-        /// Добавить после
-        /// </summary>
-        /// <param name="doublyList"></param>
-        private void AddAfter(ref DoublyList<int> doublyList)
+        private void DeleteElement(ref DoublyListList<int> doublyList)
         {
-            Console.WriteLine("После какого элемента нужно добавить?");
+            Console.WriteLine("В каком списке нужно удалить?");
+            var position = GetAnswer();
+            if (position == null)
+                return;
+
+            Console.WriteLine("Какой элемент удалить?");
             var answer = GetAnswer();
             if (answer == null)
                 return;
 
-            Console.WriteLine("Какой элемент добавить?");
-            var value = GetAnswer();
-            if (value == null)
-                return;
-
-            doublyList.AddAfter(value.Value, answer.Value);
+            doublyList.RemoveElement(answer.Value, position.Value);
         }
 
-        /// <summary>
-        /// Добавить до
-        /// </summary>
-        /// <param name="doublyList"></param>
-        private void AddBefore(ref DoublyList<int> doublyList)
-        {
-            Console.WriteLine("До какого элемента нужно добавить?");
-            var answer = GetAnswer();
-            if (answer == null)
-                return;
+        ///// <summary>
+        ///// Добавить после
+        ///// </summary>
+        ///// <param name="doublyList"></param>
+        //private void AddAfter(ref DoublyListList<int> doublyList)
+        //{
+        //    Console.WriteLine("После какого элемента нужно добавить?");
+        //    var answer = GetAnswer();
+        //    if (answer == null)
+        //        return;
 
-            Console.WriteLine("Какой элемент добавить?");
-            var value = GetAnswer();
-            if (value == null)
-                return;
+        //    Console.WriteLine("Какой элемент добавить?");
+        //    var value = GetAnswer();
+        //    if (value == null)
+        //        return;
 
-            doublyList.AddBefore(value.Value, answer.Value);
-        }
+        //    doublyList.AddAfter(value.Value, answer.Value);
+        //}
+
+        ///// <summary>
+        ///// Добавить до
+        ///// </summary>
+        ///// <param name="doublyList"></param>
+        //private void AddBefore(ref DoublyListList<int> doublyList)
+        //{
+        //    Console.WriteLine("До какого элемента нужно добавить?");
+        //    var answer = GetAnswer();
+        //    if (answer == null)
+        //        return;
+
+        //    Console.WriteLine("Какой элемент добавить?");
+        //    var value = GetAnswer();
+        //    if (value == null)
+        //        return;
+
+        //    doublyList.AddBefore(value.Value, answer.Value);
+        //}
 
         /// <summary>
         /// Найти элементы
         /// </summary>
         /// <param name="doublyList"></param>
-        private void FindInDoublyList(DoublyList<int> doublyList)
+        private void FindInDoublyList(DoublyListList<int> doublyList)
         {
             Console.WriteLine("Какой элемент нужно найти?");
             var answer = GetAnswer();
@@ -141,7 +180,7 @@ namespace Lab1
                 .ToList();
 
             Console.Write("Найденные элементы: ");
-            WriteList(result);
+            WriteElements(result);
 
         }
 
@@ -149,7 +188,7 @@ namespace Lab1
         /// Найти элементы в обраном порядке
         /// </summary>
         /// <param name="doublyList"></param>
-        private void ReverseFindInDoublyList(DoublyList<int> doublyList)
+        private void ReverseFindInDoublyList(DoublyListList<int> doublyList)
         {
             Console.WriteLine("Какой элемент нужно найти?");
             var answer = GetAnswer();
@@ -162,7 +201,7 @@ namespace Lab1
                 .ToList();
 
             Console.Write("Найденные элементы: ");
-            WriteList(result);
+            WriteElements(result);
 
         }
 
@@ -194,11 +233,12 @@ namespace Lab1
         /// </summary>
         private void WriteWhatWant()
         {
-            Console.WriteLine("Что хотите сделать?\n1) Вывод элементов\n"
-                + "2) Обратный вывод элементов\n3) Поиск элементов\n4) Обратный поиск элементов\n"
-                + "5) Добавить после\n" +
-                "6) Добавить до\n" +
-                "7) Удаление заданного элемента\n" +
+            Console.WriteLine("Что хотите сделать?\n1) Вывод элементов\n" + 
+                "2) Поиск заданного элемента\n" +
+                "3) Добавить новый список\n" +
+                "4) Добавление элемента в заданный список\n" +
+                "5) Удаление заданного элемента\n" +
+                "6) Удаление заданного списка\n" +
                 "0) Выход из лабы 'Двусвявзный лист'");
         }
 
@@ -206,11 +246,11 @@ namespace Lab1
         /// Вывод листа на экран
         /// </summary>
         /// <param name="list"></param>
-        private void WriteDoublyList(DoublyList<int> doublyList)
+        private void WriteDoublyList(DoublyListList<int> doublyList)
         {
             var list = doublyList.GetList();
 
-            Console.Write("Все элементы: ");
+            Console.WriteLine("Все элементы: ");
             WriteList(list);
         }
 
@@ -218,7 +258,7 @@ namespace Lab1
         /// Вывод обратного листа на экран
         /// </summary>
         /// <param name="list"></param>
-        private void WriteReverseDoublyList(DoublyList<int> doublyList)
+        private void WriteReverseDoublyList(DoublyListList<int> doublyList)
         {
             var list = doublyList.GetReversList();
 
@@ -230,12 +270,12 @@ namespace Lab1
         /// Инициализация листа
         /// </summary>
         /// <returns></returns>
-        private DoublyList<int> InitDoublyList()
+        private DoublyListList<int> InitDoublyList()
         {
-            var list = new DoublyList<int>();
+            var list = new DoublyListList<int>();
 
             for (var i = 0; i < ValueCount; i++)
-                list.Add(RandomValue());
+                list.Add();
 
             return list;
         }
@@ -250,9 +290,34 @@ namespace Lab1
             return rand.Next(MinValue, MaxValue);
         }
 
-        private void WriteList(IReadOnlyList<int> list)
+        private void WriteList(IReadOnlyList<IReadOnlyList<int>> list)
         {
-            foreach(var item in list)
+            var i = 1;
+            foreach (var item in list)
+            {
+                Console.WriteLine($"{i} список:");
+
+                if (item == null || !item.Any())
+                {
+                    Console.Write("Список пуст");
+                }
+                else
+                {
+
+                    foreach (var element in item)
+                    {
+                        Console.Write(element + " ");
+                    }
+                }
+                Console.WriteLine();
+                i++;
+            }
+            Console.WriteLine();
+        }
+
+        private void WriteElements(IReadOnlyList<int> list)
+        {
+            foreach (var item in list)
             {
                 Console.Write(item + " ");
             }

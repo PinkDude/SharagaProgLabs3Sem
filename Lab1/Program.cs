@@ -18,6 +18,7 @@ namespace Lab1
                     + "7) Статический стек\n"
                     + "8) Статическая очередь\n"
                     + "9) Статический лист\n"
+                    + "10) Двунаправленный списк в списке\n"
                     + "0) Выход");
 
                 var answer = GetAnswer();
@@ -54,6 +55,9 @@ namespace Lab1
                     case 9:
                         GetListStatic();
                         break;
+                    case 10:
+                        GetDoublyListList();
+                        break;
                     case 0:
                         exit = true;
                         break;
@@ -65,6 +69,13 @@ namespace Lab1
                 if (exit)
                     break;
             }
+        }
+
+        static void GetDoublyListList()
+        {
+            var sort = new Lab1DoublyListList();
+
+            sort.Main();
         }
 
         static void GetListStatic()

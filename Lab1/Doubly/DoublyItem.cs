@@ -14,5 +14,10 @@ namespace Lab1.Doubly
         {
             Data = data;
         }
+
+        public DoublyItem()
+        {
+            Data = default;
+        }
     }
 }
